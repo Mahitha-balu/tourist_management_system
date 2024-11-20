@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if tourist %}Update Tourist{% else %}Add Tourist{% endif %}</title>
+    <style>
+        /* General body styling */
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f6f8; 
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Form container styling */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        /* Form heading styling */
+        h1 { 
+            color: #4CAF50; 
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        /* Label and input styling */
+        label { 
+            font-weight: bold; 
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            color: #555;
+            box-sizing: border-box;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Additional button and field styling */
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Responsive styling for mobile devices */
+        @media (max-width: 500px) {
+            .form-container {
+                padding: 20px;
+                width: 90%;
+            }
+            h1 {
+                font-size: 1.2em;
+            }
+            button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>{% if tourist %}Update Tourist{% else %}Add New Tourist{% endif %}</h1>
+        <form action="{% if tourist %}{{ url_for('update_tourist', tourist_id=tourist[0]) }}{% else %}{{ url_for('insert_tourist') }}{% endif %}" method="post">
+            <label for="tourist_id">Tourist ID:</label>
+            <input type="text" name="tourist_id" id="tourist_id" value="{{ tourist[0] if tourist else '' }}" {% if tourist %}readonly{% endif %}>
+
+            <label for="tourist_name">Tourist Name:</label>
+            <input type="text" name="tourist_name" id="tourist_name" value="{{ tourist[1] if tourist else '' }}" required>
+
+            <label for="destination">Destination:</label>
+            <input type="text" name="destination" id="destination" value="{{ tourist[2] if tourist else '' }}" required>
+
+            <label for="number_of_people">Number of People:</label>
+            <input type="number" name="number_of_people" id="number_of_people" value="{{ tourist[3] if tourist else '' }}" min="1" required>
+
+            <button type="submit">{% if tourist %}Update{% else %}Add{% endif %} Tourist</button>
+        </form>
+    </div>
+</body>
+</html>

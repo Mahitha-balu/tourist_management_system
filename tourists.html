@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tourists</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Heading styling */
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Action links and navigation styling */
+        a, button {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: white;
+            background-color: #4CAF50;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover, button:hover {
+            background-color: #45a049;
+        }
+
+        /* Navigation links styling */
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Action buttons for Edit and Delete */
+        .action-buttons a {
+            margin-right: 5px;
+            padding: 8px 12px;
+            display: inline-block;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .action-buttons a.edit {
+            background-color: #4CAF50;
+        }
+
+        .action-buttons a.delete {
+            background-color: #f44336;
+        }
+
+        .action-buttons a.edit:hover {
+            background-color: #45a049;
+        }
+
+        .action-buttons a.delete:hover {
+            background-color: #e53935;
+        }
+
+        /* Responsive styling for mobile */
+        @media (max-width: 600px) {
+            table, form, .nav-links {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            input[type="text"] {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Tourists List</h1>
+
+    <!-- Search form -->
+    <form action="{{ url_for('search_tourist') }}" method="post">
+        <label for="tourist_id">Search Tourist by ID:</label>
+        <input type="text" name="tourist_id" id="tourist_id" placeholder="Enter Tourist ID">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Navigation link -->
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Go Back to Home</a>
+    </div>
+
+    <!-- Tourist data table -->
+    <table>
+        <tr>
+            <th>Tourist ID</th>
+            <th>Name</th>
+            <th>Destination</th>
+            <th>People</th>
+            <th>Actions</th>
+        </tr>
+        {% for tourist in tourists %}
+        <tr>
+            <td>{{ tourist[0] }}</td>
+            <td>{{ tourist[1] }}</td>
+            <td>{{ tourist[2] }}</td>
+            <td>{{ tourist[3] }}</td>
+            <td class="action-buttons">
+                <a href="{{ url_for('update_tourist', tourist_id=tourist[0]) }}" class="edit">Edit</a>
+                <a href="{{ url_for('delete_tourist', tourist_id=tourist[0]) }}" class="delete">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
